@@ -31,7 +31,7 @@ from constants import USE_LSTM
 def log_uniform(lo, hi, rate):
   log_lo = math.log(lo)
   log_hi = math.log(hi)
-  v = log_lo * (1-rate) + log_hi * rate
+  v = log_lo * (1 - rate) + log_hi * rate
   return math.exp(v)
 
 device = "/cpu:0"
@@ -130,7 +130,7 @@ def signal_handler(signal, frame):
   
 train_threads = []
 for i in range(PARALLEL_SIZE):
-  train_threads.append(threading.Thread(target=train_function, args=(i,)))
+    train_threads.append(threading.Thread(target=train_function, args=(i,)))
   
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -138,7 +138,7 @@ signal.signal(signal.SIGINT, signal_handler)
 start_time = time.time() - wall_t
 
 for t in train_threads:
-  t.start()
+    t.start()
 
 print('Press Ctrl+C to stop')
 signal.pause()
@@ -149,13 +149,13 @@ for t in train_threads:
   t.join()
 
 if not os.path.exists(CHECKPOINT_DIR):
-  os.mkdir(CHECKPOINT_DIR)  
+    os.mkdir(CHECKPOINT_DIR)
 
 # write wall time
 wall_t = time.time() - start_time
 wall_t_fname = CHECKPOINT_DIR + '/' + 'wall_t.' + str(global_t)
 with open(wall_t_fname, 'w') as f:
-  f.write(str(wall_t))
+    f.write(str(wall_t))
 
 saver.save(sess, CHECKPOINT_DIR + '/' + 'checkpoint', global_step = global_t)
 
